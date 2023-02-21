@@ -1,0 +1,10 @@
+diff --git a/config/zephyr/generic/supported_platforms b/config/zephyr/generic/supported_platforms
+index fa108d6..7646e20 100644
+--- a/config/zephyr/generic/supported_platforms
++++ b/config/zephyr/generic/supported_platforms
+@@ -3,3 +3,4 @@ olimex-stm32-e407
+ nucleo_f401re
+ nucleo_h743zi
+ nucleo_f746zg
++esp32
+\ No newline at end of file

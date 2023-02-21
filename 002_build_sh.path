@@ -1,0 +1,21 @@
+diff --git a/config/zephyr/generic/build.sh b/config/zephyr/generic/build.sh
+index dcda6ab..5692054 100755
+--- a/config/zephyr/generic/build.sh
++++ b/config/zephyr/generic/build.sh
+@@ -34,6 +34,7 @@ pushd $FW_TARGETDIR >/dev/null
+         rm -rf mcu_ws/build mcu_ws/install mcu_ws/log
+     fi
+ 
++    echo "PLATFORM: $PLATFORM"
+     # Platform renaming for Zephyr
+     if [ "$PLATFORM" = "nucleo_f746zg" ]; then
+         export BOARD="nucleo_f746zg"
+@@ -45,6 +46,8 @@ pushd $FW_TARGETDIR >/dev/null
+         export BOARD="nucleo_f401re"
+     elif [ "$PLATFORM" = "nucleo_h743zi" ]; then
+         export BOARD="nucleo_h743zi"
++    elif [ "$PLATFORM" = "esp32" ]; then
++	export BOARD="esp32"
+     elif [ "$PLATFORM" = "host" ]; then
+         export BOARD="native_posix"
+     else
