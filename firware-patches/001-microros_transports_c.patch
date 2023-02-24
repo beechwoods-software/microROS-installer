@@ -1,0 +1,19 @@
+diff --git a/microros_extensions/microros_transports.c b/microros_extensions/microros_transports.c
+index 824dbe0..71ab051 100644
+--- a/microros_extensions/microros_transports.c
++++ b/microros_extensions/microros_transports.c
+@@ -1,6 +1,6 @@
+ #include <uxr/client/transport.h>
+ 
+-#include <zephyr.h>
++#include <zephyr/kernel.h>
+ 
+ #include <unistd.h>
+ #include <stdio.h>
+@@ -333,4 +333,4 @@ size_t zephyr_transport_read(struct uxrCustomTransport* transport, uint8_t* buf,
+     return read;
+ }
+ 
+-#endif
+\ No newline at end of file
++#endif

@@ -46,8 +46,8 @@ index e781a6c..138c435 100755
 -            export TOOLCHAIN_VERSION=zephyr-toolchain-arm-0.12.4-x86_64-linux-setup.run
 -        fi
 +    set sdkfound=false
-+    if [ -e ~/.zephyrcc ]; then
-+	source ~/.zephyrcc
++    if [ -e ~/.zephyrrc ]; then
++	source ~/.zephyrrc
 +	if [ -d $ZEPHYR_SDK_INSTALL_DIR ]; then
 +	    ln -s $ZEPHYR_SDK_INSTALL_DIR zephyr-sdk
 +	    set sdkfound=true

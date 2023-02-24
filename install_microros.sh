@@ -1,11 +1,12 @@
 #!/bin/bash
+set -x
 
 if [ -z ${ROS_DISTRO} ]; then
   echo ROS_DISTRO not set
   exit -1
 fi
 board=esp32
-if [ -n $1 ]; then
+if [ -n "${1}" ]; then
 board=$1
 fi
 tmpname=`readlink -f  $0`
@@ -19,9 +20,9 @@ mkdir microros_ws
 cd microros_ws
 git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
 pushd src/micro_ros_setup
-for x in $prgdir/00* ; do
+  for x in $prgdir/00* ; do
     patch -p 1 < $x
-done
+  done
 popd
 
 # Update dependencies using rosdep
@@ -35,5 +36,5 @@ sudo apt-get install python3-pip
 colcon build
 source install/local_setup.bash
 
-ros2 run micro_ros_setup create_firmware_ws.sh zephyr $board 2>&1 | tee /tmp/microros-zephyr.log
+ros2 run micro_ros_setup create_firmware_ws.sh zephyr $board 2>&1 | tee /tmp/microros-zephyr-$board.log
 
