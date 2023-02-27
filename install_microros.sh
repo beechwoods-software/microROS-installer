@@ -38,3 +38,10 @@ source install/local_setup.bash
 
 ros2 run micro_ros_setup create_firmware_ws.sh zephyr $board 2>&1 | tee /tmp/microros-zephyr-$board.log
 
+pushd firmware/zephyr_apps
+  for x in $prgdir/zephyr_apps_patches/* ; do
+    patch -p 1 < $x
+  done
+popd
+  
+

@@ -1,0 +1,79 @@
+diff --git a/config/zephyr/generic/build.sh b/config/zephyr/generic/build.sh
+index dcda6ab..16ec2c2 100755
+--- a/config/zephyr/generic/build.sh
++++ b/config/zephyr/generic/build.sh
+@@ -34,6 +34,7 @@ pushd $FW_TARGETDIR >/dev/null
+         rm -rf mcu_ws/build mcu_ws/install mcu_ws/log
+     fi
+ 
++    echo "PLATFORM: $PLATFORM"
+     # Platform renaming for Zephyr
+     if [ "$PLATFORM" = "nucleo_f746zg" ]; then
+         export BOARD="nucleo_f746zg"
+@@ -45,6 +46,8 @@ pushd $FW_TARGETDIR >/dev/null
+         export BOARD="nucleo_f401re"
+     elif [ "$PLATFORM" = "nucleo_h743zi" ]; then
+         export BOARD="nucleo_h743zi"
++    elif [ "$PLATFORM" = "esp32" ]; then
++	export BOARD="esp32"
+     elif [ "$PLATFORM" = "host" ]; then
+         export BOARD="native_posix"
+     else
+@@ -53,30 +56,30 @@ pushd $FW_TARGETDIR >/dev/null
+     fi
+ 
+     # Choose configuration based on transport and host
+-    if [ -z "$TRANSPORT" ]; then
+-        echo "Configuration: No transport set, using prj.conf"
+-        export CONF_FILE="prj.conf"
+-
+-    elif [ "$PLATFORM" = "host" ]; then
+-        echo "Configuration: Platform 'host' detected, using host-udp.conf"
+-        export CONF_FILE="host-udp.conf"
+-
+-    else
+-        if [ ! -f "$UROS_APP_FOLDER/$TRANSPORT.conf" ]; then
+-            echo "Configuration: Specific config for transport $TRANSPORT not found, using prj.conf"
+-            export CONF_FILE="prj.conf"
+-        else
+-            echo "Configuration: Using transport-specific $TRANSPORT.conf"
+-            export CONF_FILE="$TRANSPORT.conf"
+-        fi
+-    fi
++    #if [ -z "$TRANSPORT" ]; then
++    #    echo "Configuration: No transport set, using prj.conf"
++    #    export CONF_FILE="prj.conf"
++#
++#    elif [ "$PLATFORM" = "host" ]; then
++#        echo "Configuration: Platform 'host' detected, using host-udp.conf"
++#        export CONF_FILE="host-udp.conf"
++#
++#    else
++#        if [ ! -f "$UROS_APP_FOLDER/$TRANSPORT.conf" ]; then
++#            echo "Configuration: Specific config for transport $TRANSPORT not found, using prj.conf"
++#            export CONF_FILE="prj.conf"
++#        else
++#            echo "Configuration: Using transport-specific $TRANSPORT.conf"
++#            export CONF_FILE="$TRANSPORT.conf"
++#        fi
++#    fi
+ 
+     UROS_BUILD_CMD="
+         west build
+           -b $BOARD
+           -p auto
+           $UROS_APP_FOLDER
+-          -- -DCONF_FILE=$UROS_APP_FOLDER/$CONF_FILE
++          --
+              -G'Unix Makefiles'
+              -DCMAKE_VERBOSE_MAKEFILE=$UROS_VERBOSE_BUILD
+              -DMICRO_ROS_FIRMWARE_DIR=$FW_TARGETDIR
+@@ -92,7 +95,7 @@ pushd $FW_TARGETDIR >/dev/null
+         echo "App name:                    $UROS_APP"
+         echo "Full app path:               $UROS_APP_FOLDER"
+         echo "Zephyr board:                $BOARD"
+-        echo "Zephyr configuration file:   $UROS_APP_FOLDER/$CONF_FILE"
++#        echo "Zephyr configuration file:   $UROS_APP_FOLDER/$CONF_FILE"
+         echo "Extra build arguments:       ${UROS_EXTRA_BUILD_ARGS[@]}"
+         echo "Full build command:          "${UROS_BUILD_CMD[@]}
+         echo ""
