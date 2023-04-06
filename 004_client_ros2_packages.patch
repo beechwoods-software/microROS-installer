@@ -1,0 +1,14 @@
+diff --git a/config/client_ros2_packages.txt b/config/client_ros2_packages.txt
+index c00d236..f5cbfca 100644
+--- a/config/client_ros2_packages.txt
++++ b/config/client_ros2_packages.txt
+@@ -3,7 +3,9 @@ keep:
+   ros2/rmw
+   ros2/rosidl_defaults
+   ros2/rosidl
++  ros2/rosidl_core
+   ros2/rosidl_dds
++  ros2/rosidl_default_generators
+   ros2/rmw_implementation
+   ros2/common_interfaces
+   ros2/libyaml_vendor

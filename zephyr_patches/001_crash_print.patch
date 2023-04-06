@@ -1,0 +1,13 @@
+diff --git a/arch/xtensa/core/xtensa-asm2.c b/arch/xtensa/core/xtensa-asm2.c
+index 3e31dcaa93..2a3634731c 100644
+--- a/arch/xtensa/core/xtensa-asm2.c
++++ b/arch/xtensa/core/xtensa-asm2.c
+@@ -106,7 +106,7 @@ void z_xtensa_dump_stack(const z_arch_esf_t *stack)
+ 
+ 	LOG_ERR(" **  A0 %p  SP %p  A2 %p  A3 %p",
+ 		(void *)bsa[BSA_A0_OFF/4],
+-		((char *)bsa) + BASE_SAVE_AREA_SIZE,
++		(void *)((char *)bsa) + BASE_SAVE_AREA_SIZE,
+ 		(void *)bsa[BSA_A2_OFF/4], (void *)bsa[BSA_A3_OFF/4]);
+ 
+ 	if (bsa - stack > 4) {

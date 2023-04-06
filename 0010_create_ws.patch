@@ -1,0 +1,11 @@
+diff --git a/scripts/create_ws.sh b/scripts/create_ws.sh
+index 769e5a9..bf4c0e7 100755
+--- a/scripts/create_ws.sh
++++ b/scripts/create_ws.sh
+@@ -1,5 +1,6 @@
+ #! /bin/bash
+ 
++set -x
+ set -e
+ set -o nounset
+ set -o pipefail

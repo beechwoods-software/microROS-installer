@@ -1,0 +1,13 @@
+diff --git a/ament_cmake_test/ament_cmake_test-extras.cmake b/ament_cmake_test/ament_cmake_test-extras.cmake
+index 6e231a5..12a0c57 100644
+--- a/ament_cmake_test/ament_cmake_test-extras.cmake
++++ b/ament_cmake_test/ament_cmake_test-extras.cmake
+@@ -16,7 +16,7 @@
+ 
+ enable_testing()
+ # same option as in the CTest module
+-option(BUILD_TESTING "Build the testing tree." ON)
++option(BUILD_TESTING "Build the testing tree." OFF)
+ 
+ # option()
+ set(

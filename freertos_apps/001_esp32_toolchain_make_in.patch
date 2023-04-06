@@ -1,0 +1,41 @@
+diff --git a/microros_esp32_extensions/esp32_toolchain.cmake.in b/microros_esp32_extensions/esp32_toolchain.cmake.in
+index fc96d14..27ee396 100644
+--- a/microros_esp32_extensions/esp32_toolchain.cmake.in
++++ b/microros_esp32_extensions/esp32_toolchain.cmake.in
+@@ -25,6 +26,11 @@ include_directories(
+         ${idf_path}/components/newlib/platform_include
+         ${idf_path}/components/protocomm/include
+         ${idf_path}/components/esp_rom/include
++	${idf_path}/components/esp_timer/include
++	${idf_path}/components/esp_system/include
++	${idf_path}/components/esp_hw_support/include
++	${idf_path}/components/hal/include
++	${idf_path}/components/hal/esp32/include
+         ${idf_path}/components/driver/include
+         ${idf_path}/components/wear_levelling/include
+         ${idf_path}/components/vfs/include
+@@ -51,6 +57,7 @@ include_directories(
+         ${idf_path}/components/mbedtls/mbedtls/include
+         ${idf_path}/components/xtensa/esp32/include
+         ${idf_path}/components/xtensa/include
++	${idf_path}/components/freertos/port/xtensa/include
+         ${idf_path}/components/app_trace/include
+         ${idf_path}/components/nvs_flash/include
+         ${idf_path}/components/jsmn/include
+diff --git a/microros_esp32_extensions/libmicroros.mk b/microros_esp32_extensions/libmicroros.mk
+index 5fb679a..9a10baf 100644
+--- a/microros_esp32_extensions/libmicroros.mk
++++ b/microros_esp32_extensions/libmicroros.mk
+@@ -31,8 +31,11 @@ esp32_toolchain: $(EXTENSIONS_DIR)/esp32_toolchain.cmake.in
+ 
+ colcon_compile: esp32_toolchain
+ 	cd $(UROS_DIR); \
+-	colcon build \
++	colcon \
++                --log-level debug \
++ 		build \
+ 		--merge-install \
++                --event-handlers console_cohesion+ \
+ 		--packages-ignore-regex=.*_cpp \
+ 		--metas $(UROS_DIR)/colcon.meta $(APP_META) \
+ 		--cmake-args \

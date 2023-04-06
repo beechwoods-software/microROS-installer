@@ -1,0 +1,10 @@
+diff --git a/config/zephyr/dev_ros2_packages.txt b/config/zephyr/dev_ros2_packages.txt
+index c04d6a1..da291a1 100644
+--- a/config/zephyr/dev_ros2_packages.txt
++++ b/config/zephyr/dev_ros2_packages.txt
+@@ -7,3 +7,5 @@ keep:
+   ament/osrf_pycommon
+   ament/uncrustify_vendor
+   ros2/ament_cmake_ros
++  ros2/rosdil
++  ros2/rosidl_defaults

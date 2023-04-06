@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 if [ -z ${ROS_DISTRO} ]; then
   echo ROS_DISTRO not set
@@ -26,11 +25,11 @@ pushd src/micro_ros_setup
 popd
 
 # Update dependencies using rosdep
-sudo apt update && rosdep update
+echo put this back sudo apt update && rosdep update
 rosdep install --from-paths src --ignore-src -y
 
 # Install pip
-sudo apt-get install python3-pip
+# echo put this back sudo apt-get install python3-pip
 
 # Build micro-ROS tools and source them
 colcon build
@@ -44,4 +43,27 @@ pushd firmware/zephyr_apps
   done
 popd
   
+pushd firmware/mcu_ws/uros/rcutils
+for x in $prgdir/mcu_rutils_patches/* ; do
+    patch -p 1 < $x
+  done
+popd
+  
+pushd firmware/dev_ws/ament/ament_cmake
+for x in $prgdir/ament_cmake/* ; do
+    patch -p 1 < $x
+  done
+popd
+
+pushd firmware/zephyrproject/zephyr
+  for x in $prgdir/zephyr_patches/* ; do
+    patch -p 1 < $x
+  done
+popd
+
+pushd firmware/mcu_ws/uros/rosidl_typesupport
+for x in $prgdir/rosidl_typesupport_patches/* ; do
+    patch -p 1 < $x
+  done
+popd
 

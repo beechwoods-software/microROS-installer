@@ -1,0 +1,20 @@
+diff --git a/microros_extensions/arm_toolchain.cmake.in b/microros_extensions/arm_toolchain.cmake.in
+index 6e52a8b..5f16630 100644
+--- a/microros_extensions/arm_toolchain.cmake.in
++++ b/microros_extensions/arm_toolchain.cmake.in
+@@ -6,7 +6,7 @@ set(CMAKE_CROSSCOMPILING 1)
+ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+ set(PLATFORM_NAME "zephyr")
+ 
+-set(CMAKE_SYSROOT @CMAKE_SYSROOT@)
++#set(CMAKE_SYSROOT @CMAKE_SYSROOT@)
+ 
+ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+@@ -27,4 +27,4 @@ set(CMAKE_CXX_COMPILER @CMAKE_CXX_COMPILER@)
+ set(CMAKE_C_FLAGS_INIT "@CFLAGS@" CACHE STRING "" FORCE)
+ set(CMAKE_CXX_FLAGS_INIT "@CXXFLAGS@" CACHE STRING "" FORCE)
+ 
+-set(__BIG_ENDIAN__ 0)
+\ No newline at end of file
++set(__BIG_ENDIAN__ 0)
