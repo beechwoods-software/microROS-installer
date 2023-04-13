@@ -12,4 +12,4 @@ git diff config/zephyr/generic/client-colcon.meta   >~/microros/007-client-coloc
 git diff config/zephyr/generic/create.sh            >~/microros/001_create_sh.patch
 git diff config/zephyr/generic/supported_platforms  >~/microros/003_supported_platforms.patch
 git diff scripts/create_firmware_ws.sh              >~/microros/008-create_firmware.patch
-git diff scripts/create_ws.shscripts/create_ws.sh   >~/microros/009_create_ws.patch
+git diff scripts/create_ws.sh                       >~/microros/009_create_ws.patch
