@@ -1,5 +1,5 @@
 diff --git a/config/zephyr/generic/client-colcon.meta b/config/zephyr/generic/client-colcon.meta
-index 3a76c7b..1462ee1 100644
+index 3a76c7b..aad5abc 100644
 --- a/config/zephyr/generic/client-colcon.meta
 +++ b/config/zephyr/generic/client-colcon.meta
 @@ -2,17 +2,23 @@
@@ -14,10 +14,11 @@ index 3a76c7b..1462ee1 100644
          },
          "rosidl_typesupport": {
              "cmake-args": [
+-                "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON"
 +                "-DBUILD_SHARED_LIBS=OFF",
 +                "-DENABLE_TESTING=OFF",
-                 "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON"
-+                "-DENABLE_TESTING=OFF",
++                "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON",
++                "-DENABLE_TESTING=OFF"
              ]
          },
          "rcl": {

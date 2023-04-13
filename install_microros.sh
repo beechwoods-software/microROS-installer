@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 if [ -z ${ROS_DISTRO} ]; then
   echo ROS_DISTRO not set
   exit -1
