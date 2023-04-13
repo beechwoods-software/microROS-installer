@@ -1,1 +1,15 @@
-git diff config/client_ros2_packages.txt
+diff --git a/config/client_uros_packages.repos b/config/client_uros_packages.repos
+index 7f696a7..4ac5fc7 100644
+--- a/config/client_uros_packages.repos
++++ b/config/client_uros_packages.repos
+@@ -33,6 +33,10 @@ repositories:
+     type: git
+     url: https://github.com/micro-ROS/rmw-microxrcedds.git
+     version: humble
++  ros2/rosidl_defaults:
++    type: git
++    url: https://github.com/ros2/rosidl_defaults.git
++    version: humble
+   uros/rosidl_typesupport:
+     type: git
+     url: https://github.com/micro-ROS/rosidl_typesupport.git
