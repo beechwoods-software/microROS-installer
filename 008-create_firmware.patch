@@ -1,5 +1,5 @@
 diff --git a/scripts/create_firmware_ws.sh b/scripts/create_firmware_ws.sh
-index 4ec28bf..c41314d 100755
+index 4ec28bf..6319078 100755
 --- a/scripts/create_firmware_ws.sh
 +++ b/scripts/create_firmware_ws.sh
 @@ -1,5 +1,6 @@
@@ -9,12 +9,11 @@ index 4ec28bf..c41314d 100755
  set -e
  set -o nounset
  set -o pipefail
-@@ -102,7 +103,8 @@ popd >/dev/null
+@@ -102,7 +103,7 @@ popd >/dev/null
  . $(dirname $0)/clean_env.sh
  if [ $RTOS != "host" ]; then
      pushd $FW_TARGETDIR/$DEV_WS_DIR >/dev/null
 -        colcon build
-+        touch ./ros2/rosidl/rosidl_typesupport_introspection_cpp/COLCON_IGNORE
 +        colcon --log-level=debug build --cmake-args -DBUILD_TESTING=OFF
          set +o nounset
          # source dev workspace

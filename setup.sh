@@ -1,5 +1,6 @@
 #!/bin/bash
 set -x
+set -e
 board=esp32
 app=soilsensor
 #repo=lm-gitlab
