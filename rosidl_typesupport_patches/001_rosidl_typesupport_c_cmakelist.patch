@@ -1,7 +1,16 @@
 diff --git a/rosidl_typesupport_c/CMakeLists.txt b/rosidl_typesupport_c/CMakeLists.txt
-index 2c58372..d76bba4 100644
+index 2c58372..00dd249 100644
 --- a/rosidl_typesupport_c/CMakeLists.txt
 +++ b/rosidl_typesupport_c/CMakeLists.txt
+@@ -26,7 +26,7 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD 14)
+ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake_ros REQUIRED)
 @@ -83,7 +83,6 @@ if(BUILD_TESTING)
    find_package(ament_lint_auto REQUIRED)
    ament_lint_auto_find_test_dependencies()

@@ -1,0 +1,26 @@
+diff --git a/test_tracetools/CMakeLists.txt b/test_tracetools/CMakeLists.txt
+index 18965a7..c40ecc1 100644
+--- a/test_tracetools/CMakeLists.txt
++++ b/test_tracetools/CMakeLists.txt
+@@ -7,7 +7,7 @@ if(NOT CMAKE_CXX_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
+diff --git a/tracetools/CMakeLists.txt b/tracetools/CMakeLists.txt
+index a0ec5a2..86fd324 100644
+--- a/tracetools/CMakeLists.txt
++++ b/tracetools/CMakeLists.txt
+@@ -7,7 +7,7 @@ if(NOT CMAKE_CXX_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+   add_compile_options(/W4)
+ endif()

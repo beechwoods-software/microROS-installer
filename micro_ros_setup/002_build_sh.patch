@@ -1,5 +1,5 @@
 diff --git a/config/zephyr/generic/build.sh b/config/zephyr/generic/build.sh
-index dcda6ab..16ec2c2 100755
+index dcda6ab..2830380 100755
 --- a/config/zephyr/generic/build.sh
 +++ b/config/zephyr/generic/build.sh
 @@ -34,6 +34,7 @@ pushd $FW_TARGETDIR >/dev/null
@@ -10,16 +10,18 @@ index dcda6ab..16ec2c2 100755
      # Platform renaming for Zephyr
      if [ "$PLATFORM" = "nucleo_f746zg" ]; then
          export BOARD="nucleo_f746zg"
-@@ -45,6 +46,8 @@ pushd $FW_TARGETDIR >/dev/null
+@@ -45,6 +46,10 @@ pushd $FW_TARGETDIR >/dev/null
          export BOARD="nucleo_f401re"
      elif [ "$PLATFORM" = "nucleo_h743zi" ]; then
          export BOARD="nucleo_h743zi"
 +    elif [ "$PLATFORM" = "esp32" ]; then
 +	export BOARD="esp32"
++    elif [ "$PLATFORM" = "esp32c3_devkitm" ]; then
++	export BOARD="esp32c3_devkitm"
      elif [ "$PLATFORM" = "host" ]; then
          export BOARD="native_posix"
      else
-@@ -53,30 +56,30 @@ pushd $FW_TARGETDIR >/dev/null
+@@ -53,30 +58,30 @@ pushd $FW_TARGETDIR >/dev/null
      fi
  
      # Choose configuration based on transport and host
@@ -68,7 +70,7 @@ index dcda6ab..16ec2c2 100755
               -G'Unix Makefiles'
               -DCMAKE_VERBOSE_MAKEFILE=$UROS_VERBOSE_BUILD
               -DMICRO_ROS_FIRMWARE_DIR=$FW_TARGETDIR
-@@ -92,7 +95,7 @@ pushd $FW_TARGETDIR >/dev/null
+@@ -92,7 +97,7 @@ pushd $FW_TARGETDIR >/dev/null
          echo "App name:                    $UROS_APP"
          echo "Full app path:               $UROS_APP_FOLDER"
          echo "Zephyr board:                $BOARD"

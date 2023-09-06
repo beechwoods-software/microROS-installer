@@ -1,0 +1,13 @@
+diff --git a/newlib/libc/include/ssp/stdlib.h b/newlib/libc/include/ssp/stdlib.h
+index a9b196aff..88e814a1d 100644
+--- a/newlib/libc/include/ssp/stdlib.h
++++ b/newlib/libc/include/ssp/stdlib.h
+@@ -16,7 +16,7 @@ __ssp_decl(size_t, mbstowcs, (wchar_t *__buf, const char *__src, size_t __n))
+ 
+ __ssp_redirect_raw(size_t, wcstombs, \
+     (char *__buf, const wchar_t *__src, size_t __len), \
+-    (__buf, __src, __len), __buf != NULL, __ssp_bos);
++    (__buf, __src, __len), __buf != NULL, __ssp_bos)
+ 
+ __ssp_decl(int, wctomb, (char *__buf, wchar_t __wc))
+ {

@@ -1,10 +1,10 @@
 #!/bin/bash
-set -x
+#set -x
 set -e
 board=esp32
 app=soilsensor
-#repo=lm-gitlab
-repo=192.168.111.100
+repo=ssh://git@lm-gitlab.beechwoods.com:7999
+#repo=ssh@192.168.111.100:/git
 while getopts "a:b:r:gh" OPTION; do
     case $OPTION in
 	a)
@@ -31,8 +31,12 @@ tmpname=`readlink -f  $0`
 prgdir=`dirname $tmpname`
 $prgdir/install_microros.sh ${board}
 pushd microros_ws/firmware/zephyr_apps/apps
-  git clone -b master git@$repo:/git/zephyr/soilsensor
-  git clone -b main git@$repo:/git/zephyr/soillistener
+  git clone -b master $repo/zephyr/soilsensor
+  git clone -b main $repo/micro-ros/weatherstation
+
+popd
+pushd microros_ws/firmware/mcu_ws
+  git clone -b main $repo/micro-ros/idl/weatherstation
 popd
 pushd microros_ws
   source /opt/ros/$ROS_DISTRO/setup.bash
@@ -45,4 +49,4 @@ pushd microros_ws
 #  ros2 run micro_ros_agent micro_ros_agent udp4
 popd
 
-echo run 'ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888'
+#echo run 'ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888'

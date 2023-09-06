@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -x
+#set -x
+set -e
+
 if [ -z ${ROS_DISTRO} ]; then
   echo ROS_DISTRO not set
   exit -1
@@ -20,7 +22,7 @@ mkdir microros_ws
 cd microros_ws
 git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
 pushd src/micro_ros_setup
-  for x in $prgdir/00* ; do
+  for x in $prgdir/micro_ros_setup/* ; do
     patch -p 1 < $x
   done
 popd
@@ -68,3 +70,48 @@ for x in $prgdir/rosidl_typesupport_patches/* ; do
   done
 popd
 
+#pushd firmware/mcu_ws/uros/tracetools
+#  for x in $prgdir/tracetools/*; do
+#    patch -p1 < $x
+#  done
+#popd
+
+pushd firmware/mcu_ws/ros2/libyaml_vendor
+for x in $prgdir/ros2_libyaml/*; do
+    patch -p1 < $x
+done
+popd
+
+pushd firmware/mcu_ws/ros2/common_interfaces
+for x in $prgdir/ros2_common_interfaces/*; do
+    patch -p1 < $x
+done
+popd
+
+pushd firmware/zephyrproject/modules/lib/picolibc
+for x in $prgdir/picolib/*; do
+    patch -p1 < $x
+done
+popd
+pushd firmware/mcu_ws/ros2/rcl_logging
+for x in $prgdir/ros2_rcl_logging_interface/*; do
+    patch -p1 <$x
+done
+popd
+pushd firmware/mcu_ws/uros/rcl
+for x in $prgdir/uros_rcl/*; do
+    patch -p1 <$x
+done
+popd
+pushd firmware/mcu_ws/uros/rclc
+for x in $prgdir/uros_rclc/*; do
+    patch -p1 <$x
+done
+popd
+    
+    
+	 
+
+    
+	 
+    

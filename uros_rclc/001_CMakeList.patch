@@ -1,0 +1,52 @@
+diff --git a/rclc/CMakeLists.txt b/rclc/CMakeLists.txt
+index 32703d1..c716624 100644
+--- a/rclc/CMakeLists.txt
++++ b/rclc/CMakeLists.txt
+@@ -19,7 +19,7 @@ if(NOT CMAKE_CXX_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ set(CMAKE_VERBOSE_MAKEFILE ON)
+diff --git a/rclc_examples/CMakeLists.txt b/rclc_examples/CMakeLists.txt
+index c45fc9b..8549558 100644
+--- a/rclc_examples/CMakeLists.txt
++++ b/rclc_examples/CMakeLists.txt
+@@ -12,7 +12,7 @@ if(NOT CMAKE_C_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ set(CMAKE_VERBOSE_MAKEFILE ON)
+diff --git a/rclc_lifecycle/CMakeLists.txt b/rclc_lifecycle/CMakeLists.txt
+index e759b74..b580579 100644
+--- a/rclc_lifecycle/CMakeLists.txt
++++ b/rclc_lifecycle/CMakeLists.txt
+@@ -26,7 +26,7 @@ if("${rcl_lifecycle_VERSION}" VERSION_LESS "1.0.0")
+ else()
+   message(STATUS "Found rcl_lifecycle version ${rcl_lifecycle_VERSION}, which belongs to Foxy or later")
+   if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-    add_compile_options(-Wall -Wextra -Wpedantic)
++    add_compile_options(-Wall -Wextra)
+   endif()
+ endif()
+ 
+diff --git a/rclc_parameter/CMakeLists.txt b/rclc_parameter/CMakeLists.txt
+index ed58402..a507f87 100644
+--- a/rclc_parameter/CMakeLists.txt
++++ b/rclc_parameter/CMakeLists.txt
+@@ -22,7 +22,7 @@ if(NOT CMAKE_CXX_STANDARD)
+ endif()
+ 
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ set(CMAKE_VERBOSE_MAKEFILE ON)

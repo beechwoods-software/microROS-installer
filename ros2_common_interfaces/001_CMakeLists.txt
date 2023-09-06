@@ -1,0 +1,52 @@
+diff --git a/nav_msgs/CMakeLists.txt b/nav_msgs/CMakeLists.txt
+index 1533119..dfc46dc 100644
+--- a/nav_msgs/CMakeLists.txt
++++ b/nav_msgs/CMakeLists.txt
+@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
+diff --git a/sensor_msgs/CMakeLists.txt b/sensor_msgs/CMakeLists.txt
+index a7ba55e..538e52b 100644
+--- a/sensor_msgs/CMakeLists.txt
++++ b/sensor_msgs/CMakeLists.txt
+@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
+diff --git a/stereo_msgs/CMakeLists.txt b/stereo_msgs/CMakeLists.txt
+index 4119887..f96790a 100644
+--- a/stereo_msgs/CMakeLists.txt
++++ b/stereo_msgs/CMakeLists.txt
+@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
+diff --git a/visualization_msgs/CMakeLists.txt b/visualization_msgs/CMakeLists.txt
+index a6d456f..0537fef 100644
+--- a/visualization_msgs/CMakeLists.txt
++++ b/visualization_msgs/CMakeLists.txt
+@@ -8,7 +8,7 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ endif()
+ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-  add_compile_options(-Wall -Wextra -Wpedantic)
++  add_compile_options(-Wall -Wextra)
+ endif()
+ 
+ find_package(ament_cmake REQUIRED)
