@@ -31,9 +31,11 @@ tmpname=`readlink -f  $0`
 prgdir=`dirname $tmpname`
 $prgdir/install_microros.sh ${board}
 pushd microros_ws/firmware/zephyr_apps/apps
-  git clone -b master $repo/zephyr/soilsensor
-  git clone -b main $repo/micro-ros/weatherstation
+  git clone --recursive -b master $repo/zephyr/soilsensor
+  git clone --recursive -b main $repo/micro-ros/weatherstation
 
+  cp ~/local.conf soilsensor/.
+  cp ~/local.conf weatherstation/.
 popd
 pushd microros_ws/firmware/mcu_ws
   git clone -b main $repo/micro-ros/idl/weatherstation

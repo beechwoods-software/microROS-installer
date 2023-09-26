@@ -1,0 +1,13 @@
+diff --git a/config/zephyr/generic/flash.sh b/config/zephyr/generic/flash.sh
+index 13fb4be..448b686 100755
+--- a/config/zephyr/generic/flash.sh
++++ b/config/zephyr/generic/flash.sh
+@@ -70,7 +70,7 @@ else
+ 
+         source $FW_TARGETDIR/zephyrproject/zephyr/zephyr-env.sh
+ 
+-        west flash
++        west flash  ${UROS_EXTRA_FLASH_ARGS[@]}
+ 
+     fi
+ 
