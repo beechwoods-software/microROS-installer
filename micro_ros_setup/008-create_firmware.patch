@@ -2,13 +2,6 @@ diff --git a/scripts/create_firmware_ws.sh b/scripts/create_firmware_ws.sh
 index 4ec28bf..6319078 100755
 --- a/scripts/create_firmware_ws.sh
 +++ b/scripts/create_firmware_ws.sh
-@@ -1,5 +1,6 @@
- #! /bin/bash
- 
-+set -x
- set -e
- set -o nounset
- set -o pipefail
 @@ -102,7 +103,7 @@ popd >/dev/null
  . $(dirname $0)/clean_env.sh
  if [ $RTOS != "host" ]; then

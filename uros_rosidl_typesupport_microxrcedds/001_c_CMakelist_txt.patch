@@ -1,0 +1,12 @@
+diff --git a/rosidl_typesupport_microxrcedds_c/CMakeLists.txt b/rosidl_typesupport_microxrcedds_c/CMakeLists.txt
+index f35d375..1995ae4 100644
+--- a/rosidl_typesupport_microxrcedds_c/CMakeLists.txt
++++ b/rosidl_typesupport_microxrcedds_c/CMakeLists.txt
+@@ -58,7 +58,6 @@ target_compile_options(${PROJECT_NAME}
+   PRIVATE
+     $<$<C_COMPILER_ID:GNU>:-Wall>
+     $<$<C_COMPILER_ID:GNU>:-Wextra>
+-    $<$<C_COMPILER_ID:GNU>:-Wpedantic>
+   )
+ 
+ set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -1,0 +1,13 @@
+diff --git a/scripts/build_firmware.sh b/scripts/build_firmware.sh
+index 96a2c86..df7a41b 100755
+--- a/scripts/build_firmware.sh
++++ b/scripts/build_firmware.sh
+@@ -24,6 +24,8 @@ do
+             echo "Building in verbose mode"
+             UROS_VERBOSE_BUILD=on
+             ;;
++	--)
++	    shift ; break ;;
+         [?])
+             echo "Usage: ros2 run micro_ros_setup build_firmware.sh [options] -- [build_args]"
+             echo "Options:"

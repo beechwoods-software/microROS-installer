@@ -1,0 +1,12 @@
+diff --git a/rosidl_typesupport_microxrcedds_cpp/cmake/rosidl_typesupport_microxrcedds_cpp_generate_interfaces.cmake b/rosidl_typesupport_microxrcedds_cpp/cmake/rosidl_typesupport_microxrcedds_cpp_generate_interfaces.cmake
+index 66282f9..559b669 100644
+--- a/rosidl_typesupport_microxrcedds_cpp/cmake/rosidl_typesupport_microxrcedds_cpp_generate_interfaces.cmake
++++ b/rosidl_typesupport_microxrcedds_cpp/cmake/rosidl_typesupport_microxrcedds_cpp_generate_interfaces.cmake
+@@ -137,7 +137,6 @@ target_compile_options(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+   PRIVATE
+     $<$<PLATFORM_ID:Linux>:-Wall>
+     $<$<PLATFORM_ID:Linux>:-Wextra>
+-    $<$<PLATFORM_ID:Linux>:-Wpedantic>
+     $<$<PLATFORM_ID:Windows>:/W4>
+   )
+ 

@@ -1,0 +1,51 @@
+diff --git a/src/error_handling_helpers.h b/src/error_handling_helpers.h
+index b6a1dc6..d408181 100644
+--- a/src/error_handling_helpers.h
++++ b/src/error_handling_helpers.h
+@@ -86,6 +86,8 @@ __rcutils_copy_string(char * dst, size_t dst_size, const char * src)
+ }
+ 
+ // do not use externally, internal function which is only to be used by error_handling.c
++
++#if !defined(RCUTILS_AVOID_DYNAMIC_ALLOCATION)
+ static
+ void
+ __rcutils_reverse_str(char * string_in, size_t string_len)
+@@ -102,13 +104,15 @@ __rcutils_reverse_str(char * string_in, size_t string_len)
+     string_in[j] = c;
+   }
+ }
++#endif
++
++#if !defined(RCUTILS_AVOID_DYNAMIC_ALLOCATION)
+ 
+ // do not use externally, internal function which is only to be used by error_handling.c
+ static
+ void
+ __rcutils_convert_uint64_t_into_c_str(uint64_t number, char * buffer, size_t buffer_size)
+ {
+-#if !defined(RCUTILS_AVOID_DYNAMIC_ALLOCATION)
+   assert(buffer != NULL);
+   assert(buffer_size >= 21);
+   (void)buffer_size;  // prevent warning in release builds where there is no assert(...)
+@@ -132,9 +136,8 @@ __rcutils_convert_uint64_t_into_c_str(uint64_t number, char * buffer, size_t buf
+ 
+   // reverse the string in place
+   __rcutils_reverse_str(buffer, strnlen(buffer, 21));
+-#endif
+ }
+-
++#endif
+ // do not use externally, internal function which is only to be used by error_handling.c
+ static
+ void
+@@ -176,6 +179,9 @@ __rcutils_format_error_string(
+   written = __rcutils_copy_string(offset, bytes_left, line_number_buffer);
+   offset += written;
+   offset[0] = '\0';
++#else
++  (void)error_string;
++  (void)error_state;
+ #endif
+ }
+ 

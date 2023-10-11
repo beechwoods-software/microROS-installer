@@ -32,7 +32,7 @@ echo put this back sudo apt update && rosdep update
 rosdep install --from-paths src --ignore-src -y
 
 # Install pip
-# echo put this back sudo apt-get install python3-pip
+echo put this back sudo apt-get install python3-pip
 
 # Build micro-ROS tools and source them
 colcon build
@@ -47,7 +47,7 @@ pushd firmware/zephyr_apps
 popd
   
 pushd firmware/mcu_ws/uros/rcutils
-for x in $prgdir/mcu_rutils_patches/* ; do
+for x in $prgdir/uros_rcutils/* ; do
     patch -p 1 < $x
   done
 popd
@@ -108,10 +108,14 @@ for x in $prgdir/uros_rclc/*; do
     patch -p1 <$x
 done
 popd
-    
-    
-	 
-
-    
-	 
+pushd firmware/mcu_ws/ros2/rosidl_dynamic_typesupport
+for x in $prgdir/ros2_rosidl_dynamic_typesupport/*; do
+    patch -p1 <$x
+done
+popd
+pushd firmware/mcu_ws/uros/rosidl_typesupport_microxrcedds/rosidl_typesupport_microxrcedds_c
+for x in $prgdir/uros_rosidl_typesupport_microxrcedds_c/*; do
+    patch -p1 <$x
+done
+popd
     

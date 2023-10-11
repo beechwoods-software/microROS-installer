@@ -1,0 +1,13 @@
+diff --git a/resource/logging_macros.h.em b/resource/logging_macros.h.em
+index 6f8d7f5..1b87e49 100644
+--- a/resource/logging_macros.h.em
++++ b/resource/logging_macros.h.em
+@@ -51,7 +51,7 @@ extern "C"
+  * Use RCUTILS_LOG_MIN_SEVERITY_NONE to compile out all macros.
+  */
+ #ifndef RCUTILS_LOG_MIN_SEVERITY
+-#define RCUTILS_LOG_MIN_SEVERITY RCUTILS_LOG_MIN_SEVERITY_NONE
++#define RCUTILS_LOG_MIN_SEVERITY RCUTILS_LOG_MIN_SEVERITY_DEBUG
+ #endif
+ 
+ // TODO(dhood): optimise severity check via notifyLoggerLevelsChanged concept or similar.

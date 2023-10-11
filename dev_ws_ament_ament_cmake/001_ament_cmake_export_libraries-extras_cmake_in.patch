@@ -1,0 +1,16 @@
+diff --git a/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake.in b/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake.in
+index bd47853..3ce61f1 100644
+--- a/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake.in
++++ b/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake.in
+@@ -112,8 +112,10 @@ if(NOT _exported_library_names STREQUAL "")
+         NAMES "${_library_name}"
+       )
+       if(NOT _lib)
++	if(NOT library_name STREQUAL "dl")
+         # warn about not existing library and later ignore it
+-        message(WARNING "Package '@PROJECT_NAME@' exports library '${_library_name}' which couldn't be found")
++          message(WARNING "Package '@PROJECT_NAME@' exports library '${_library_name}' which couldn't be found")
++	endif()
+       endif()
+     else()
+       # search for library in the specified directories

@@ -1,6 +1,7 @@
 #!/bin/bash
 #set -x
 set -e
+unset AMENT_PREFIX_PATH
 board=esp32
 app=soilsensor
 repo=ssh://git@lm-gitlab.beechwoods.com:7999
@@ -48,7 +49,7 @@ pushd microros_ws
   ros2 run micro_ros_setup create_agent_ws.sh
   source  install/local_setup.bash
   ros2 run micro_ros_setup build_agent.sh --cmake-args -Wno-dev
-#  ros2 run micro_ros_agent micro_ros_agent udp4
+#  ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888
 popd
 
 #echo run 'ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888'

@@ -1,0 +1,11 @@
+diff --git a/newlib/libc/stdlib/random.c b/newlib/libc/stdlib/random.c
+index b43a9cca3..5f9f6f27e 100644
+--- a/newlib/libc/stdlib/random.c
++++ b/newlib/libc/stdlib/random.c
+@@ -67,5 +67,6 @@ random (void)
+   _rand_next = _rand_next * __extension__ 6364136223846793005LL + 1;
+   return (long int)((_rand_next >> 32) & RAND_MAX);
+ }
++#pragma weak random
+ 
+ #endif /* _REENT_ONLY */
