@@ -7,7 +7,7 @@ index 707ded3..47ec95f 100755
  
  export PATH=~/.local/bin:"$PATH"
 -export ZEPHYR_VERSION="v0.12.4"
-+export ZEPHYR_VERSION="0.16.2-rc1"
++export ZEPHYR_VERSION="0.16.3"
  export ARCH=$(uname -m)
  
  pushd $FW_TARGETDIR >/dev/null
@@ -16,7 +16,7 @@ index 707ded3..47ec95f 100755
      pushd zephyrproject >/dev/null
          cd zephyr
 -          git checkout zephyr-v2.6.0
-+          git checkout zephyr-v3.3.0
++          git checkout zephyr-v3.5.0
          cd ..
 +
          west update
