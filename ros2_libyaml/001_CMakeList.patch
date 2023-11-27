@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 05f5ff1..21b315d 100644
+index c65b98c..1c7fd35 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -11,7 +11,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+@@ -12,7 +12,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
    # implicit sign conversions in rclcpp and gtest.cc, see https://ci.ros2.org/job/ci_osx/9265/.
    # Hence disabling -Wsign-conversion for now until all those have eventually been fixed.
    # (from https://github.com/ros2/rclcpp/pull/1188#issuecomment-650229140)
@@ -10,4 +10,13 @@ index 05f5ff1..21b315d 100644
 +  add_compile_options(-Wall -Wextra -Wconversion -Wno-sign-conversion -Wnon-virtual-dtor -Woverloaded-virtual)
  endif()
  
- find_package(ament_cmake REQUIRED)
+ option(FORCE_BUILD_VENDOR_PKG
+@@ -34,7 +34,7 @@ macro(build_libyaml)
+     list(APPEND extra_cmake_args -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+   endif()
+ 
+-  list(APPEND extra_cmake_args -DBUILD_SHARED_LIBS=ON)
++  list(APPEND extra_cmake_args -DBUILD_SHARED_LIBS=OFF)
+   list(APPEND extra_cmake_args -DBUILD_TESTING=OFF)
+   list(APPEND extra_cmake_args -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS})
+   # Disable MSVC warnings

@@ -1,8 +1,8 @@
 diff --git a/include/zephyr/net/net_ip.h b/include/zephyr/net/net_ip.h
-index 6cb193e634..d7fca6e0e7 100644
+index 6c78428c1c..1ba50ba17e 100644
 --- a/include/zephyr/net/net_ip.h
 +++ b/include/zephyr/net/net_ip.h
-@@ -680,7 +680,7 @@ static inline bool net_ipv6_is_prefix(const uint8_t *addr1,
+@@ -683,7 +683,7 @@ static inline bool net_ipv6_is_prefix(const uint8_t *addr1,
  	}
  
  	/* Create a mask that has remaining most significant bits set */

@@ -1,0 +1,12 @@
+diff --git a/src/strcasecmp.c b/src/strcasecmp.c
+index 941919a..9f83ff6 100644
+--- a/src/strcasecmp.c
++++ b/src/strcasecmp.c
+@@ -19,6 +19,7 @@ extern "C"
+ 
+ #include <errno.h>
+ #include <string.h>
++#include <strings.h>
+ 
+ #include "rcutils/strcasecmp.h"
+ 

@@ -27,3 +27,19 @@ You can then build your app with the
 ros2 run micro_ros_setup build_firmware.sh
 
 command
+
+
+Picolib seems to have an issue with rand() and srand(). While the application links, it crashes. With these functions in the application
+, the application works correctly
+
+void
+srand (unsigned int seed)
+{
+  srandom(seed);
+}
+
+int
+rand (void)
+{
+  return (int) random();
+}
