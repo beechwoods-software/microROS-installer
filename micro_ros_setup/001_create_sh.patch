@@ -1,8 +1,8 @@
 diff --git a/config/zephyr/generic/create.sh b/config/zephyr/generic/create.sh
-index 707ded3..47ec95f 100755
+index 13fa6ee..d0f42eb 100755
 --- a/config/zephyr/generic/create.sh
 +++ b/config/zephyr/generic/create.sh
-@@ -15,7 +16,7 @@ if ! (( $CMAKE_VERSION_MAJOR_NUMBER > 3 || \
+@@ -15,7 +15,7 @@ if ! (( $CMAKE_VERSION_MAJOR_NUMBER > 3 || \
  fi
  
  export PATH=~/.local/bin:"$PATH"
@@ -11,7 +11,7 @@ index 707ded3..47ec95f 100755
  export ARCH=$(uname -m)
  
  pushd $FW_TARGETDIR >/dev/null
-@@ -23,35 +24,40 @@ pushd $FW_TARGETDIR >/dev/null
+@@ -23,35 +23,40 @@ pushd $FW_TARGETDIR >/dev/null
      west init zephyrproject
      pushd zephyrproject >/dev/null
          cd zephyr
@@ -71,7 +71,7 @@ index 707ded3..47ec95f 100755
      export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
      export ZEPHYR_SDK_INSTALL_DIR=$FW_TARGETDIR/zephyr-sdk
  
-@@ -68,6 +74,6 @@ pushd $FW_TARGETDIR >/dev/null
+@@ -67,6 +72,6 @@ pushd $FW_TARGETDIR >/dev/null
      touch mcu_ws/uros/rclc/rclc_examples/COLCON_IGNORE
  
      # Upgrade sphinx

@@ -1,17 +1,22 @@
 diff --git a/config/zephyr/generic/client-colcon.meta b/config/zephyr/generic/client-colcon.meta
-index c7af3d0..32e6ae5 100644
+index 3a76c7b..3fd3b1e 100644
 --- a/config/zephyr/generic/client-colcon.meta
 +++ b/config/zephyr/generic/client-colcon.meta
-@@ -2,19 +2,32 @@
+@@ -2,17 +2,23 @@
      "names": {
          "tracetools": {
              "cmake-args": [
 +                "-DBUILD_SHARED_LIBS=OFF",
-+                "-DENABLE_TESTING=OFF",
++                "-DENABLE_TESTING=OFF",            
                  "-DTRACETOOLS_DISABLED=ON",
                  "-DTRACETOOLS_STATUS_CHECKING_TOOL=OFF"
              ]
          },
+-        "rosidl_typesupport": {
+-            "cmake-args": [
+-                "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON"
+-            ]
+-        },
 +         "rosidl_typesupport": {
 +             "cmake-args": [
 +                "-DBUILD_SHARED_LIBS=OFF",
@@ -22,23 +27,26 @@ index c7af3d0..32e6ae5 100644
 +         },
          "rcl": {
              "cmake-args": [
-+                "-DBUILD_SHARED_LIBS=OFF",
++                "-DBUILD_SHARED_LIBS=OFF",            
                  "-DBUILD_TESTING=OFF",
-                 "-DRCL_MICROROS=ON"
-             ]
+                 "-DRCL_COMMAND_LINE_ENABLED=OFF",
+                 "-DRCL_LOGGING_ENABLED=OFF"
+@@ -20,7 +26,9 @@
          }, 
          "rcutils": {
              "cmake-args": [
-+                "-DBUILD_SHARED_LIBS=OFF",
++                "-DBUILD_SHARED_LIBS=OFF",            
                  "-DENABLE_TESTING=OFF",
-+                "-DBUILD_TESTING=OFF",
++                "-DBUILD_TESTING=OFF",                
                  "-DRCUTILS_NO_FILESYSTEM=ON",
                  "-DRCUTILS_NO_THREAD_SUPPORT=ON",
                  "-DRCUTILS_AVOID_DYNAMIC_ALLOCATION=ON",
-@@ -23,12 +36,16 @@
+@@ -29,12 +37,20 @@
          },
          "microxrcedds_client": {
              "cmake-args": [
++                "-DBUILD_SHARED_LIBS=OFF",
++                "-DENABLE_TESTING=OFF",
 +                "-DBUILD_SHARED_LIBS=OFF",
 +                "-DENABLE_TESTING=OFF",
                  "-DUCLIENT_PIC=OFF",
@@ -47,6 +55,8 @@ index c7af3d0..32e6ae5 100644
          },
          "rmw_microxrcedds": {
              "cmake-args": [
++                "-DBUILD_SHARED_LIBS=OFF",
++                "-DENABLE_TESTING=OFF",
 +                "-DBUILD_SHARED_LIBS=OFF",
 +                "-DENABLE_TESTING=OFF",
                  "-DRMW_UXRCE_MAX_NODES=1",
