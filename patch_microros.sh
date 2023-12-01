@@ -28,16 +28,21 @@ for x in $prgdir/ros2_rcl_logging_interface/*; do
     patch -p1 <$x
 done
 popd
-pushd firmware/mcu_ws/ros2/rosidl_dynamic_typesupport
-for x in $prgdir/ros2_rosidl_dynamic_typesupport/*; do
-    patch -p1 <$x
-done
-popd
-pushd firmware/mcu_ws/uros/rosidl_typesupport
-for x in $prgdir/rosidl_typesupport_patches/* ; do
-    patch -p 1 < $x
-  done
-popd
+
+# rosidl_dynamic_typesupport and rosidl_typesupport directories
+# don't exist anymore, but the same stuff is probably under rosidl directory
+
+#pushd firmware/mcu_ws/ros2/rosidl_dynamic_typesupport
+#for x in $prgdir/ros2_rosidl_dynamic_typesupport/*; do
+#    patch -p1 <$x
+#done
+#popd
+#pushd firmware/mcu_ws/uros/rosidl_typesupport
+#for x in $prgdir/rosidl_typesupport_patches/* ; do
+#    patch -p 1 < $x
+#  done
+#popd
+
 #pushd firmware/mcu_ws/uros/tracetools
 #  for x in $prgdir/tracetools/*; do
 #    patch -p1 < $x

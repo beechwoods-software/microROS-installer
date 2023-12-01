@@ -2,8 +2,8 @@
 #set -x
 set -e
 unset AMENT_PREFIX_PATH
-board=esp32
-app=soilsensor
+board=esp32_devkitc_wroom
+app=weatherstation
 repo=ssh://git@lm-gitlab.beechwoods.com:7999
 #repo=ssh@192.168.111.100:/git
 while getopts "a:b:r:gh" OPTION; do
