@@ -18,12 +18,13 @@ prgdir=`dirname $tmpname`
 source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Create a workspace and download the micro-ROS tools
-mkdir microros_ws
+mkdir -p microros_ws
 cd microros_ws
-git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
+[ -d src/micro_ros_setup ] || git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_setup.git src/micro_ros_setup
 pushd src/micro_ros_setup
   for x in $prgdir/micro_ros_setup/* ; do
-    patch -p 1 < $x
+      echo "`pwd` patch -p 1 < $x"
+      patch -p 1 < $x
   done
 popd
 
