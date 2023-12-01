@@ -1,8 +1,8 @@
 diff --git a/config/zephyr/generic/client-colcon.meta b/config/zephyr/generic/client-colcon.meta
-index c7af3d0..32e6ae5 100644
+index 3a76c7b..aad5abc 100644
 --- a/config/zephyr/generic/client-colcon.meta
 +++ b/config/zephyr/generic/client-colcon.meta
-@@ -2,19 +2,32 @@
+@@ -2,17 +2,23 @@
      "names": {
          "tracetools": {
              "cmake-args": [
@@ -12,20 +12,22 @@ index c7af3d0..32e6ae5 100644
                  "-DTRACETOOLS_STATUS_CHECKING_TOOL=OFF"
              ]
          },
-+         "rosidl_typesupport": {
-+             "cmake-args": [
+         "rosidl_typesupport": {
+             "cmake-args": [
+-                "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON"
 +                "-DBUILD_SHARED_LIBS=OFF",
 +                "-DENABLE_TESTING=OFF",
 +                "-DROSIDL_TYPESUPPORT_SINGLE_TYPESUPPORT=ON",
 +                "-DENABLE_TESTING=OFF"
-+             ]
-+         },
+             ]
+         },
          "rcl": {
              "cmake-args": [
 +                "-DBUILD_SHARED_LIBS=OFF",
                  "-DBUILD_TESTING=OFF",
-                 "-DRCL_MICROROS=ON"
-             ]
+                 "-DRCL_COMMAND_LINE_ENABLED=OFF",
+                 "-DRCL_LOGGING_ENABLED=OFF"
+@@ -20,7 +26,9 @@
          }, 
          "rcutils": {
              "cmake-args": [
@@ -35,7 +37,7 @@ index c7af3d0..32e6ae5 100644
                  "-DRCUTILS_NO_FILESYSTEM=ON",
                  "-DRCUTILS_NO_THREAD_SUPPORT=ON",
                  "-DRCUTILS_AVOID_DYNAMIC_ALLOCATION=ON",
-@@ -23,12 +36,16 @@
+@@ -29,12 +37,16 @@
          },
          "microxrcedds_client": {
              "cmake-args": [
