@@ -40,7 +40,7 @@ prgdir=`dirname $tmpname`
 $prgdir/install_microros.sh ${board}
 pushd microros_ws/firmware/zephyr_apps/apps
   git clone --recursive -b master $repo/zephyr/soilsensor
-  git clone --recursive -b main $repo/micro-ros/weatherstation -b dave_picow
+  git clone --recursive -b main $repo/micro-ros/weatherstation
 
   if [ ${board} = "rpi_pico_w" ]; then
     git clone --recursive -b main https://github.com/beechwoods-software/zephyr-cyw43-driver
