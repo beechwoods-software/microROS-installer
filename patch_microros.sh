@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 tmpname=`readlink -f  $0`
 prgdir=`dirname $tmpname`
 
@@ -32,6 +33,7 @@ applyPatches firmware/mcu_ws/uros/micro_ros_utilities uros_micro_ros_utilities
 applyPatches firmware/mcu_ws/uros/rcl uros_rcl
 applyPatches firmware/mcu_ws/uros/rclc uros_rclc
 applyPatches firmware/mcu_ws/uros/rcutils uros_rcutils
+applyPatches firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client Micro-XRCE-DDS-Client
 applyPatches firmware/mcu_ws/uros/rmw_microxrcedds uros_rmw_microxrcedds
 applyPatches firmware/mcu_ws/uros/rosidl_typesupport_microxrcedds uros_rosidl_typesupport_microxrcedds
 applyPatches firmware/zephyr_apps zephyr_apps_patches
