@@ -1,0 +1,542 @@
+commit 7c26d29f4bf289169c2fdcbc7329ed3d02c7c6d6
+Author: LIU, CHAUNCY <chauncy@beechwoods.com>
+Date:   Fri Jan 26 10:48:08 2024 -0500
+
+    Modification for pico w
+
+diff --git a/apps/ping_pong/CMakeLists.txt b/apps/ping_pong/CMakeLists.txt
+index 6b7f572..11bcf12 100644
+--- a/apps/ping_pong/CMakeLists.txt
++++ b/apps/ping_pong/CMakeLists.txt
+@@ -2,10 +2,18 @@
+ 
+ cmake_minimum_required(VERSION 3.13.1)
+ 
+-set(COMPATIBLE_BOARDS disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
++set(COMPATIBLE_BOARDS rpi_pico_w disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
++set(WIFI_BOARDS esp32_devkitc_wroom esp32c3_devkitm rpi_pico_w)
++
+ if(NOT ${BOARD} IN_LIST COMPATIBLE_BOARDS)
+     message(FATAL_ERROR "App $ENV{UROS_APP} not compatible with board ${BOARD}")
+ endif()
++if(${BOARD} IN_LIST WIFI_BOARDS)
++  add_compile_definitions(HAS_WIFI)
++  set(WIFI_SRC src/wifi.c)
++endif()
++set(EXTRA_CONF_FILE local.conf)
++set(OVERLAY_CONFIG local.conf)
+ 
+ include($ENV{ZEPHYR_BASE}/cmake/app/boilerplate.cmake NO_POLICY_SCOPE)
+ project(microrosapp C CXX)
+@@ -23,6 +31,9 @@ endif()
+ 
+ FILE(GLOB app_sources src/*.c ${microros_src_dir}/microros_transports.c)
+ include_directories(${microros_src_dir})
++target_include_directories(app PUBLIC
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++  $<INSTALL_INTERFACE:include>)
+ 
+ target_sources(app PRIVATE ${app_sources})
+ 
+@@ -107,3 +118,12 @@ foreach(pkg ${INCLUDE_ROS2_PACKAGES})
+ endforeach()
+ 
+ target_link_libraries(app PUBLIC microroslib)
++# Copyright (c) 2023 Beechwoods Software, Inc.
++# SPDX-License-Identifier: Apache-2.0
++#
++# This CMake file is picked by the Zephyr build system because it is defined
++# as the module CMake entry point (see zephyr/module.yml).
++
++zephyr_include_directories()
++
++add_subdirectory(drivers)
+diff --git a/apps/ping_pong/src/main.c b/apps/ping_pong/src/main.c
+index 22f085e..4a4f9d4 100644
+--- a/apps/ping_pong/src/main.c
++++ b/apps/ping_pong/src/main.c
+@@ -11,8 +11,16 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <time.h>
++#include "wifi.h"
++#include <zephyr/zephyr.h>
+ 
+-#include <zephyr.h>
++#if !defined(CONFIG_AGENT_ADDRESS)
++#error "Please define CONFIG_AGENT_ADDRESS in local.conf"
++#endif
++#if !defined(CONFIG_DEVICE_NAME)
++#error "Please define CONFIG_DEVICE_NAME in local.conf"
++#endif
++char * SERVER = CONFIG_AGENT_ADDRESS;
+ 
+ #define STRING_BUFFER_LEN 50
+ 
+@@ -80,6 +88,7 @@ void pong_subscription_callback(const void * msgin)
+ 
+ void main(void)
+ {
++	strncpy(default_params.ip, SERVER, NET_IPV4_ADDR_LEN);
+ 	// Set custom transports
+ 	rmw_uros_set_custom_transport(
+ 		MICRO_ROS_FRAMING_REQUIRED,
+@@ -90,10 +99,18 @@ void main(void)
+ 		zephyr_transport_read
+ 	);
+ 
++    printf("+++ main +++ \n");
+ 	// Init micro-ROS
+ 	rcl_allocator_t allocator = rcl_get_default_allocator();
+ 	rclc_support_t support;
+ 
++#ifdef HAS_WIFI
++  printf("wifi_connect\n");
++  wifi_connect();
++  printf("wifi_connected\n");
++
++#endif // HAS_WIFI
++
+ 	// create init_options
+ 	RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
+ 
+@@ -153,3 +170,13 @@ void main(void)
+ 	RCCHECK(rcl_subscription_fini(&pong_subscriber, &node));
+ 	RCCHECK(rcl_node_fini(&node));
+ }
++
++#ifdef CONFIG_PICOLIBC
++int _isatty(int file)
++{
++        return 1;
++}
++__weak FUNC_ALIAS(_isatty, isatty, int);
++
++#endif
++
+
+commit 8a0b6afbb12793f0a406a425ba13f70715f80a14
+Author: LIU, CHAUNCY <chauncy@beechwoods.com>
+Date:   Fri Jan 26 10:46:08 2024 -0500
+
+    Ping Pong in Pico W
+
+diff --git a/apps/ping_pong/Kconfig b/apps/ping_pong/Kconfig
+new file mode 100644
+index 0000000..9f50962
+--- /dev/null
++++ b/apps/ping_pong/Kconfig
+@@ -0,0 +1,41 @@
++config WIFI_SSID
++	string "WIFI SSID - Network name"
++	default "my_network"
++
++config WIFI_PSK
++	string "WIFI PSK - Network password key"
++	default "secret_passwd"
++
++config AGENT_ADDRESS
++       string "IP address of the ROS agent"
++       default "my_agent_address"
++
++config DEVICE_NAME
++       string "My Devie Name"
++       default "MyDevice"
++       help
++	The string to be sent with publish replies
++
++module = PING_PONG
++module-str = Ping_pong
++module-help = Enables logging for Weatherstation
++
++source "subsys/logging/Kconfig.template.log_config"
++
++source "Kconfig.zephyr"
++# Copyright (c) 2023 Beechwoods Software, Inc.
++# SPDX-License-Identifier: Apache-2.0
++#
++# This Kconfig file is picked by the Zephyr build system because it is defined
++# as the module Kconfig entry point (see zephyr/module.yml). You can browse
++# module options by going to Zephyr -> Modules in Kconfig.
++
++rsource "drivers/Kconfig"
++# Copyright (c) 2023 Beechwoods Software, Inc.
++# SPDX-License-Identifier: Apache-2.0
++#
++# This Kconfig file is picked by the Zephyr build system because it is defined
++# as the module Kconfig entry point (see zephyr/module.yml). You can browse
++# module options by going to Zephyr -> Modules in Kconfig.
++
++rsource "drivers/Kconfig"
+diff --git a/apps/ping_pong/boards/rpi_pico_w.conf b/apps/ping_pong/boards/rpi_pico_w.conf
+new file mode 100644
+index 0000000..2de6d1e
+--- /dev/null
++++ b/apps/ping_pong/boards/rpi_pico_w.conf
+@@ -0,0 +1,75 @@
++CONFIG_HEAP_MEM_POOL_SIZE=98304
++
++
++CONFIG_SENSOR=y
++CONFIG_BME280=y
++#CONFIG_SPI=y
++CONFIG_I2C=y
++
++CONFIG_SENSOR_INFO=y
++CONFIG_SENSOR_LOG_LEVEL_DBG=y
++
++CONFIG_LOG_PROCESS_THREAD_STACK_SIZE=1024
++CONFIG_NET_MGMT_EVENT_STACK_SIZE=2048
++CONFIG_SHELL_STACK_SIZE=2560
++
++CONFIG_NET_LOG=y
++#CONFIG_NET_IF_LOG_LEVEL_DBG=y
++#CONFIG_NET_PKT_LOG_LEVEL_DBG=y
++#CONFIG_WIFI_LOG_LEVEL_DBG=y
++#CONFIG_NET_CAPTURE_LOG_LEVEL_DBG=y
++#CONFIG_DNS_RESOLVER_LOG_LEVEL_DBG=y
++
++CONFIG_POSIX_API=y
++
++CONFIG_WIFI=y
++CONFIG_WIFI_ZEPHYR_CYW43=y
++
++# To use the picowi spi-pio implementation, change CONFIG_USE_PICOWI_PIOSPI to 'y'
++CONFIG_USE_PICOWI_PIOSPI=y
++
++CONFIG_UART_CONSOLE_DEBUG_SERVER_HOOKS=n
++
++CONFIG_WIFI_ZEPHYR_CYW43_SHELL=y
++
++CONFIG_ENTROPY_GENERATOR=y
++CONFIG_TEST_RANDOM_GENERATOR=y
++
++CONFIG_NETWORKING=y
++CONFIG_NET_L2_ETHERNET=y
++CONFIG_INIT_STACKS=y
++CONFIG_NET_STATISTICS=y
++CONFIG_NET_STATISTICS_WIFI=y
++CONFIG_NET_STATISTICS_USER_API=y
++
++CONFIG_NET_SHELL=y
++CONFIG_NET_CONFIG_SETTINGS=y
++CONFIG_NET_CONFIG_INIT_TIMEOUT=60
++CONFIG_NET_CONFIG_AUTO_INIT=n
++CONFIG_NET_L2_WIFI_SHELL=y
++
++CONFIG_NET_UDP=y
++CONFIG_NET_TCP=y
++
++CONFIG_NET_MGMT=y
++CONFIG_NET_MGMT_EVENT=y
++CONFIG_WIFI_MGMT_RAW_SCAN_RESULTS=y
++CONFIG_NET_MGMT_EVENT_MONITOR=y
++
++CONFIG_NET_IPV6=n
++CONFIG_NET_IPV4=y
++CONFIG_NET_DHCPV4=y
++
++CONFIG_DNS_RESOLVER=y
++CONFIG_DNS_RESOLVER_ADDITIONAL_BUF_CTR=5
++CONFIG_DNS_RESOLVER_ADDITIONAL_QUERIES=2
++CONFIG_MDNS_RESOLVER=y
++CONFIG_DNS_SERVER_IP_ADDRESSES=y
++CONFIG_DNS_SERVER1="8.8.8.8"
++
++# Powersave parameters
++CONFIG_WIFI_ZEPHYR_CYW43_POWERSAVE_MODE=0
++CONFIG_WIFI_ZEPHYR_CYW43_POWERSAVE_PM2_SLEEP_RET_MS=20
++CONFIG_WIFI_ZEPHYR_CYW43_POWERSAVE_LI_BEACON_PERIOD=1
++CONFIG_WIFI_ZEPHYR_CYW43_POWERSAVE_LI_DTIM_PERIOD=1
++CONFIG_WIFI_ZEPHYR_CYW43_POWERSAVE_LI_ASSOC=10
+diff --git a/apps/ping_pong/boards/rpi_pico_w.overlay b/apps/ping_pong/boards/rpi_pico_w.overlay
+new file mode 100644
+index 0000000..8060236
+--- /dev/null
++++ b/apps/ping_pong/boards/rpi_pico_w.overlay
+@@ -0,0 +1,44 @@
++
++
++&pinctrl {
++	pio0_spi0_default: pio0_spi0_default {
++	    /* gpio 25 is used for chip select, not assigned to the PIO */
++		group1 {
++			pinmux = <PIO0_P29>, <PIO0_P23>;
++		};
++	};
++
++};
++
++&pio0 {
++ 	status = "okay";
++
++	pio0_spi0: pio0_spi0 {
++		pinctrl-0 = <&pio0_spi0_default>;
++		pinctrl-names = "default";
++
++		compatible = "custom_raspberrypi,pico-spi-pio";
++		status = "okay";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		clocks = < &system_clk >;
++    	cs-gpios = <&gpio0 25 GPIO_ACTIVE_LOW>;
++		clk-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
++		sio-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;
++		infineon_cyw43_module: infineon_cyw43_module@0 {
++			compatible = "infineon,cyw43";
++			reg = < 0x0 >;
++			spi-max-frequency = < 1000000 >;
++			wl-on-gpios = < &gpio0 23 GPIO_ACTIVE_HIGH >;
++			host-wake-gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>;	
++
++			cyw43_led: cyw43_led {		/* Pico W LED is on CYW43439 GPIO 0 */
++				compatible = "infineon,cyw43_led";
++			};
++			cyw43_gpio: cyw43_gpio {
++				compatible = "infineon,cyw43_gpio";
++			};
++		};
++	};
++};
++
+diff --git a/apps/ping_pong/prj.conf b/apps/ping_pong/prj.conf
+new file mode 100644
+index 0000000..2dbd469
+--- /dev/null
++++ b/apps/ping_pong/prj.conf
+@@ -0,0 +1,108 @@
++# COnfigure Console
++CONFIG_EARLY_CONSOLE=y
++
++#configure logging
++CONFIG_LOG_PROCESS_THREAD_STACK_SIZE=4096
++CONFIG_LOG_PROCESS_THREAD=y
++CONFIG_LOG=y
++CONFIG_LOG_MODE_DEFERRED=y
++
++# Configure Libraries and compiler
++CONFIG_SHELL_STACK_SIZE=4096
++
++CONFIG_MAIN_STACK_SIZE=4096
++
++#CONFIG_CPP=y
++# seems like microros should really set this, but they don't
++CONFIG_CPLUSPLUS=y
++CONFIG_POSIX_API=y
++#CONFIG_NEWLIB_LIBC=y
++#CONFIG_NEWLIB_LIBC_NANO=n
++CONFIG_PICOLIBC=y
++CONFIG_PICOLIBC_USE_MODULE=y
++#CONFIG_MINIMAL_LIBC=y
++#CONFIG_EXTERNAL_LIBC=n
++
++#CONFIG_MINIMAL_LIBC_NON_REENTRANT_FUNCTIONS=n
++
++CONFIG_FILE_SYSTEM=y
++CONFIG_COMPILER_COLOR_DIAGNOSTICS=n
++CONFIG_HEAP_MEM_POOL_SIZE=81920
++
++
++# Configure the kernel
++CONFIG_SYSTEM_WORKQUEUE_STACK_SIZE=2048
++
++# Configure Networking
++CONFIG_NETWORKING=y
++CONFIG_NET_SOCKETS=y
++#CONFIG_NET_SOCKETS_POSIX_NAMES=y
++
++CONFIG_NET_UDP=y
++
++CONFIG_NET_DHCPV4=y
++CONFIG_NET_DHCPV4_INITIAL_DELAY_MAX=10
++
++CONFIG_NET_CONNECTION_MANAGER=y
++
++CONFIG_NET_TX_STACK_SIZE=4096
++CONFIG_NET_RX_STACK_SIZE=4096
++
++CONFIG_NET_MAX_CONTEXTS=10
++
++
++CONFIG_INIT_STACKS=y
++
++CONFIG_NET_STATISTICS=n
++CONFIG_NET_STATISTICS_PERIODIC_OUTPUT=n
++CONFIG_NET_STATISTICS_WIFI=n
++CONFIG_NET_STATISTICS_USER_API=n
++
++CONFIG_NET_L2_ETHERNET=y
++
++CONFIG_NET_IPV4=y
++CONFIG_NET_IPV6=n
++
++CONFIG_NET_CONFIG_AUTO_INIT=y
++CONFIG_NET_CONFIG_NEED_IPV4=y
++
++
++# Configure Network managment
++CONFIG_NET_MGMT=y
++
++CONFIG_NET_MGMT_EVENT_STACK_SIZE=1024
++CONFIG_NET_MGMT_EVENT=y
++CONFIG_NET_MGMT_EVENT_QUEUE_SIZE=2
++#CONFIG_NET_DEBUG_MGMT_EVENT_STACK=n
++CONFIG_NET_MGMT_EVENT_INFO=y
++#CONFIG_NET_MGMT_EVENT_MONITOR=y
++CONFIG_NET_MGMT_EVENT_MONITOR_AUTO_START=n
++CONFIG_NET_L2_WIFI_MGMT=y
++
++#CONFIG_NET_LOG=n
++#CONFIG_NET_IPV4_LOG_LEVEL_DBG=n
++#CONFIG_NET_ICMPV4_LOG_LEVEL_DBG=n
++#CONFIG_NET_DHCPV4_LOG_LEVEL_DBG=n
++#CONFIG_NET_MGMT_EVENT_LOG_LEVEL_DBG=n
++#CONFIG_NET_L2_WIFI_MGMT_LOG_LEVEL_DBG=n
++
++
++# Network buffers
++#CONFIG_NET_PKT_RX_COUNT=32
++#CONFIG_NET_PKT_TX_COUNT=16
++#CONFIG_NET_BUF_RX_COUNT=53
++#CONFIG_NET_BUF_TX_COUNT=32
++CONFIG_NET_PKT_RX_COUNT=10
++CONFIG_NET_PKT_TX_COUNT=10
++CONFIG_NET_BUF_RX_COUNT=20
++CONFIG_NET_BUF_TX_COUNT=20
++
++CONFIG_NET_CONTEXT_NET_PKT_POOL=y
++
++
++# Configure Wifi
++CONFIG_WIFI=y
++
++# Configure shells
++CONFIG_NET_SHELL=y
++CONFIG_NET_L2_WIFI_SHELL=y
+diff --git a/apps/ping_pong/src/wifi.c b/apps/ping_pong/src/wifi.c
+new file mode 100644
+index 0000000..ba57b37
+--- /dev/null
++++ b/apps/ping_pong/src/wifi.c
+@@ -0,0 +1,110 @@
++/*
++ * Copyright 2023 Liquid Motion, Inc brad@beechwoods.com
++ * All Rights Reserved
++ */
++
++#include <zephyr/kernel.h>
++
++#include <zephyr/logging/log.h>
++#define WIFI_LOG_MODULE_NAME wifi
++#define WIFI_LOG_MODULE_LEVEL LOG_LEVEL_DBG
++LOG_MODULE_REGISTER(WIFI_LOG_MODULE_NAME, WIFI_LOG_MODULE_LEVEL);
++
++#include <zephyr/net/wifi_mgmt.h>
++
++#ifndef CONFIG_WIFI_SSID
++#error "no SSID"
++#endif
++#ifndef CONFIG_WIFI_PSK
++#error "No PSK"
++#endif
++
++static struct k_sem wifi_connect_sem, wifi_dhcp_sem;
++static struct net_mgmt_event_callback wifi_mgmt_cb;
++static struct net_mgmt_event_callback dhcp_mgmt_cb;
++
++static void handle_wifi_connect_result(struct net_mgmt_event_callback *cb)
++{
++  const struct wifi_status *status = (const struct wifi_status *)
++    cb->info;
++  
++  if (status->status) {
++    LOG_ERR("Connection request failed (%d)", status->status);
++  } else {
++    LOG_INF("WIFI Connected");
++    k_sem_give(&wifi_connect_sem);
++  }
++}
++
++static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb,
++                                    uint32_t mgmt_event, struct net_if *iface)
++{
++  LOG_DBG("Got event 0X%x",mgmt_event);
++  switch (mgmt_event) {
++  case NET_EVENT_WIFI_CONNECT_RESULT:
++    handle_wifi_connect_result(cb);
++    break;
++  case NET_EVENT_IPV4_DHCP_BOUND:
++    LOG_INF("WIFI Connected");
++    k_sem_give(&wifi_dhcp_sem);
++    break;
++  default:
++    break;
++  }
++}
++
++
++
++void wifi_connect(void)
++{
++  int nr_tries = 20;
++  int ret = 0;
++  k_sem_init(&wifi_connect_sem, 0, 1);
++  k_sem_init(&wifi_dhcp_sem, 0, 1);
++  net_mgmt_init_event_callback(&wifi_mgmt_cb,
++			       wifi_mgmt_event_handler,
++			       NET_EVENT_WIFI_CONNECT_RESULT);
++  
++  net_mgmt_add_event_callback(&wifi_mgmt_cb);
++  net_mgmt_init_event_callback(&dhcp_mgmt_cb,
++			       wifi_mgmt_event_handler,
++			       NET_EVENT_IPV4_DHCP_BOUND);
++  
++  net_mgmt_add_event_callback(&dhcp_mgmt_cb);
++  struct net_if *iface = net_if_get_default();
++  static struct wifi_connect_req_params cnx_params = {
++    .ssid = CONFIG_WIFI_SSID,
++    .ssid_length = 0,
++    .psk = CONFIG_WIFI_PSK,
++    .psk_length = 0,
++    .channel = 0,
++    .security = WIFI_SECURITY_TYPE_PSK,
++  };
++  
++  cnx_params.ssid_length = strlen(CONFIG_WIFI_SSID);
++  cnx_params.psk_length = strlen(CONFIG_WIFI_PSK);
++
++  LOG_WRN("WIFI try connecting to %s.%s..", CONFIG_WIFI_SSID, CONFIG_WIFI_PSK);
++
++  /* Let's wait few seconds to allow wifi device be on-line */
++  while (nr_tries-- > 0) {
++    ret = net_mgmt(NET_REQUEST_WIFI_CONNECT, iface, &cnx_params,
++		   sizeof(struct wifi_connect_req_params));
++    if (ret == 0) {
++      break;
++    }
++    
++    LOG_WRN("Connect request failed %d. Waiting for iface to be up...", ret);
++    k_msleep(500);
++  }
++
++  LOG_DBG("Waiting on connect");
++  k_sem_take(&wifi_connect_sem, K_FOREVER);
++  LOG_DBG("Connected!");
++  LOG_DBG("Waiting on DHCP response");
++  k_sem_take(&wifi_dhcp_sem, K_FOREVER);
++  LOG_DBG("DHCP address bound!");
++
++}
++
++
+diff --git a/apps/ping_pong/src/wifi.h b/apps/ping_pong/src/wifi.h
+new file mode 100644
+index 0000000..4174ca4
+--- /dev/null
++++ b/apps/ping_pong/src/wifi.h
+@@ -0,0 +1,5 @@
++
++
++
++
++void wifi_connect(void);
