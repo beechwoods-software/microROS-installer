@@ -46,7 +46,7 @@ pushd microros_ws/firmware/zephyr_apps/apps
     cp -r zephyr-cyw43-driver/drivers $app
     cp -r zephyr-cyw43-driver/dts $app  
   fi
-  
+  cp ~/local.conf $app  
 popd
 pushd microros_ws/firmware/mcu_ws
 popd
