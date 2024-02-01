@@ -2,17 +2,15 @@ Micro-ros installation helper
 
 To use in the root of your target directory run
 
-setup.sh -a \<app\> -b \<board\> -r \<git server\>
+setup.sh -a \<app\> -b \<board\>
 
-app defaults to soilsenor
+app defaults to ping_pong
 
-board defaults to esp32
-
-repo defaults to ssh://git@lm-gitlab.beechwoods.com:7999
+board defaults to rpi_pico_w (other options that have beent tested are: esp32_devkitc_wroom, esp32c3_devkitm).
 
 The setup script calls install_microros.sh which clones the necessary repositories and applies local patches to them.
 
-The setup script then  clones two apps, weatherstation and soilsensor from the repo. it also clones the idl/weatherstation custom idl from the repo. Micro Ros cannot build idl as part of the application and it must be separated and placed in the microros_ws/firmware/mcu_ws directory for it to be built.
+The setup script then clones the ping_pong app from the repo. 
 
 The setup script then builds the chosen application and also creates and builds  mircro_ros_agent. Currently it does not run the agent becuase you can apt install it on Ubuntu and it will always be running.
 
@@ -29,8 +27,7 @@ ros2 run micro_ros_setup build_firmware.sh
 command
 
 
-Picolib seems to have an issue with rand() and srand(). While the application links, it crashes. With these functions in the application
-, the application works correctly
+Picolib seems to have an issue with rand() and srand(). While the application links, it crashes. With alternate implemenations, the application works correctly. The patches in this package change the definitions of these functions to:
 
 void
 srand (unsigned int seed)

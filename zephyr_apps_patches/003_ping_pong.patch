@@ -13,7 +13,7 @@ index 6b7f572..11bcf12 100644
  cmake_minimum_required(VERSION 3.13.1)
  
 -set(COMPATIBLE_BOARDS disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
-+set(COMPATIBLE_BOARDS rpi_pico_w disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
++set(COMPATIBLE_BOARDS esp32_devkitc_wroom esp32c3_devkitm rpi_pico_w disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
 +set(WIFI_BOARDS esp32_devkitc_wroom esp32c3_devkitm rpi_pico_w)
 +
  if(NOT ${BOARD} IN_LIST COMPATIBLE_BOARDS)
@@ -38,19 +38,6 @@ index 6b7f572..11bcf12 100644
  
  target_sources(app PRIVATE ${app_sources})
  
-@@ -107,3 +118,12 @@ foreach(pkg ${INCLUDE_ROS2_PACKAGES})
- endforeach()
- 
- target_link_libraries(app PUBLIC microroslib)
-+# Copyright (c) 2023 Beechwoods Software, Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+#
-+# This CMake file is picked by the Zephyr build system because it is defined
-+# as the module CMake entry point (see zephyr/module.yml).
-+
-+zephyr_include_directories()
-+
-+add_subdirectory(drivers)
 diff --git a/apps/ping_pong/src/main.c b/apps/ping_pong/src/main.c
 index 22f085e..4a4f9d4 100644
 --- a/apps/ping_pong/src/main.c
@@ -126,7 +113,7 @@ new file mode 100644
 index 0000000..9f50962
 --- /dev/null
 +++ b/apps/ping_pong/Kconfig
-@@ -0,0 +1,41 @@
+@@ -0,0 +1,25 @@
 +config WIFI_SSID
 +	string "WIFI SSID - Network name"
 +	default "my_network"
@@ -152,22 +139,6 @@ index 0000000..9f50962
 +source "subsys/logging/Kconfig.template.log_config"
 +
 +source "Kconfig.zephyr"
-+# Copyright (c) 2023 Beechwoods Software, Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+#
-+# This Kconfig file is picked by the Zephyr build system because it is defined
-+# as the module Kconfig entry point (see zephyr/module.yml). You can browse
-+# module options by going to Zephyr -> Modules in Kconfig.
-+
-+rsource "drivers/Kconfig"
-+# Copyright (c) 2023 Beechwoods Software, Inc.
-+# SPDX-License-Identifier: Apache-2.0
-+#
-+# This Kconfig file is picked by the Zephyr build system because it is defined
-+# as the module Kconfig entry point (see zephyr/module.yml). You can browse
-+# module options by going to Zephyr -> Modules in Kconfig.
-+
-+rsource "drivers/Kconfig"
 diff --git a/apps/ping_pong/boards/rpi_pico_w.conf b/apps/ping_pong/boards/rpi_pico_w.conf
 new file mode 100644
 index 0000000..2de6d1e
