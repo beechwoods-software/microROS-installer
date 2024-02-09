@@ -1,0 +1,37 @@
+FROM ros:humble
+RUN apt-get update 
+RUN apt-get install -y lsb-release sudo pip
+RUN apt-get -y install \
+  git \
+  cmake \
+  ninja-build \
+  gperf \
+  ccache \
+  dfu-util \
+  device-tree-compiler \
+  wget \
+  python3-pip \
+  python3-setuptools \
+  python3-tk \
+  python3-wheel \
+  xz-utils \
+  file \
+  make \
+  gcc \
+  gcc-multilib \
+  software-properties-common 
+RUN apt-get -y install \
+  python3-flake8-docstrings \
+  python3-pytest-cov \
+  ros-dev-tools
+RUN apt-get -y install \
+   python3-flake8-blind-except \
+   python3-flake8-builtins \
+   python3-flake8-class-newline \
+   python3-flake8-comprehensions \
+   python3-flake8-deprecated \
+   python3-flake8-import-order \
+   python3-flake8-quotes \
+   python3-pytest-repeat \
+   python3-pytest-rerunfailures
+RUN apt-get clean all
