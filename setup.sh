@@ -5,13 +5,11 @@ unset AMENT_PREFIX_PATH
 
 export ROS_DISTRO=humble
 
-board=esp32
+#board=esp32
 #board=esp32_devkitc_wroom
 board=rpi_pico_w
 app=ping_pong
 
-repo=ssh://git@lm-gitlab.beechwoods.com:7999
-#repo=ssh@192.168.111.100:/git
 
 while getopts "a:b:r:gh" OPTION; do
     case $OPTION in
@@ -25,16 +23,16 @@ while getopts "a:b:r:gh" OPTION; do
 	    repo=$OPTARG
 	    ;;
 	h)
-	    echo "Usage: setup -a <app> -b <board> -r repo"
+	    echo "Usage: setup -a <app> -b <board>"
 	    exit 0
 	    ;;
 	*)
-	    echo "Usage: setup -a <app> -b <board> -r repo"
+	    echo "Usage: setup -a <app> -b <board>"
 	    exit -1
 	    ;;
     esac
 done
-echo Board: $board app: $app repo: $repo
+echo Board: $board app: $app
 tmpname=`readlink -f  $0`
 prgdir=`dirname $tmpname`
 $prgdir/install_microros.sh ${board}
