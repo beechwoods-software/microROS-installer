@@ -2,6 +2,7 @@
 dockerfile=dockerfile.$$
 username=`whoami`
 userId=`id -u $username`
+image="$username:mros_humble"
 
 infoLocalConf()
 {
@@ -29,14 +30,14 @@ echo "RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers" >> $dockerfile
 echo "USER $username" >> $dockerfile
 echo "CMD /bin/bash"
 
-echo "Building docker image $username:mros_humble$$"
-docker build -t $username:mros_humble$$ -f $dockerfile .
+echo "Building docker image $image"
+docker build -t $image -f $dockerfile .
 
-[ $? != 0 ] && "ERROR on building docker image $username:mros_humble$$!! exiting..." && exit
+[ $? != 0 ] && "ERROR on building docker image $image!! exiting..." && exit
 
 echo "_____________________________________________________________________________________"
-echo "* A docker image $username:mros_humble$$ has been set up. To build, please run"
-echo "docker run -v $PWD:$PWD -v $HOME:$HOME -it $username:mros_humble$$"
+echo "* A docker image $image has been set up. To build, please run"
+echo "docker run -v $PWD:$PWD -v $HOME:$HOME -it $image"
 echo "* You should be inside the docker container, you can build by running the followings"
 echo "cd $PWD"
 echo "./setup.sh"
