@@ -1,0 +1,173 @@
+diff --git a/apps/add_two_ints_service/CMakeLists.txt b/apps/add_two_ints_service/CMakeLists.txt
+index 9700586..21ca49e 100644
+--- a/apps/add_two_ints_service/CMakeLists.txt
++++ b/apps/add_two_ints_service/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/attitude_estimator/CMakeLists.txt b/apps/attitude_estimator/CMakeLists.txt
+index c842d52..a49da54 100644
+--- a/apps/attitude_estimator/CMakeLists.txt
++++ b/apps/attitude_estimator/CMakeLists.txt
+@@ -89,7 +89,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/int32_publisher/CMakeLists.txt b/apps/int32_publisher/CMakeLists.txt
+index 6b7f572..d7bcee5 100644
+--- a/apps/int32_publisher/CMakeLists.txt
++++ b/apps/int32_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/int32_wifi_publisher/CMakeLists.txt b/apps/int32_wifi_publisher/CMakeLists.txt
+index 9716f5b..7215189 100644
+--- a/apps/int32_wifi_publisher/CMakeLists.txt
++++ b/apps/int32_wifi_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/micro-ros_reconnection/CMakeLists.txt b/apps/micro-ros_reconnection/CMakeLists.txt
+index d555cba..73d56ca 100644
+--- a/apps/micro-ros_reconnection/CMakeLists.txt
++++ b/apps/micro-ros_reconnection/CMakeLists.txt
+@@ -84,7 +84,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/openmanipulator_tof/CMakeLists.txt b/apps/openmanipulator_tof/CMakeLists.txt
+index 3fb3667..a5b4337 100644
+--- a/apps/openmanipulator_tof/CMakeLists.txt
++++ b/apps/openmanipulator_tof/CMakeLists.txt
+@@ -93,7 +93,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/ping_pong/CMakeLists.txt b/apps/ping_pong/CMakeLists.txt
+index 6b7f572..3aae832 100644
+--- a/apps/ping_pong/CMakeLists.txt
++++ b/apps/ping_pong/CMakeLists.txt
+@@ -2,10 +2,18 @@
+ 
+ cmake_minimum_required(VERSION 3.13.1)
+ 
+-set(COMPATIBLE_BOARDS disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
++set(COMPATIBLE_BOARDS rpi_pico_w disco_l475_iot1 olimex_stm32_e407 native_posix nucleo_h743zi nucleo_f746zg blackpill_f411ce blackpill_f401ce)
++set(WIFI_BOARDS esp32_devkitc_wroom esp32c3_devkitm rpi_pico_w)
++
+ if(NOT ${BOARD} IN_LIST COMPATIBLE_BOARDS)
+     message(FATAL_ERROR "App $ENV{UROS_APP} not compatible with board ${BOARD}")
+ endif()
++if(${BOARD} IN_LIST WIFI_BOARDS)
++  add_compile_definitions(HAS_WIFI)
++  set(WIFI_SRC src/wifi.c)
++endif()
++set(EXTRA_CONF_FILE local.conf)
++set(OVERLAY_CONFIG local.conf)
+ 
+ include($ENV{ZEPHYR_BASE}/cmake/app/boilerplate.cmake NO_POLICY_SCOPE)
+ project(microrosapp C CXX)
+@@ -23,6 +31,9 @@ endif()
+ 
+ FILE(GLOB app_sources src/*.c ${microros_src_dir}/microros_transports.c)
+ include_directories(${microros_src_dir})
++target_include_directories(app PUBLIC
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++  $<INSTALL_INTERFACE:include>)
+ 
+ target_sources(app PRIVATE ${app_sources})
+ 
+@@ -87,7 +98,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+@@ -107,3 +118,12 @@ foreach(pkg ${INCLUDE_ROS2_PACKAGES})
+ endforeach()
+ 
+ target_link_libraries(app PUBLIC microroslib)
++# Copyright (c) 2023 Beechwoods Software, Inc.
++# SPDX-License-Identifier: Apache-2.0
++#
++# This CMake file is picked by the Zephyr build system because it is defined
++# as the module CMake entry point (see zephyr/module.yml).
++
++zephyr_include_directories()
++
++add_subdirectory(drivers)
+diff --git a/apps/sensors_publisher/CMakeLists.txt b/apps/sensors_publisher/CMakeLists.txt
+index 9716f5b..7215189 100644
+--- a/apps/sensors_publisher/CMakeLists.txt
++++ b/apps/sensors_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/tof_ws2812/CMakeLists.txt b/apps/tof_ws2812/CMakeLists.txt
+index 9f8414f..d914a51 100644
+--- a/apps/tof_ws2812/CMakeLists.txt
++++ b/apps/tof_ws2812/CMakeLists.txt
+@@ -89,7 +89,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/vl53l1x_tof_sensor/CMakeLists.txt b/apps/vl53l1x_tof_sensor/CMakeLists.txt
+index 3fb3667..a5b4337 100644
+--- a/apps/vl53l1x_tof_sensor/CMakeLists.txt
++++ b/apps/vl53l1x_tof_sensor/CMakeLists.txt
+@@ -93,7 +93,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
