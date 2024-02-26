@@ -47,7 +47,7 @@ index 22f085e..4a4f9d4 100644
  #include <unistd.h>
  #include <time.h>
 +#include "wifi.h"
-+#include <zephyr/zephyr.h>
++#include <zephyr/kernel.h>
  
 -#include <zephyr.h>
 +#if !defined(CONFIG_AGENT_ADDRESS)
@@ -384,19 +384,6 @@ index 0000000..2dbd469
 +# Configure shells
 +CONFIG_NET_SHELL=y
 +CONFIG_NET_L2_WIFI_SHELL=y
-diff --git a/apps/ping_pong/src/main.c b/apps/ping_pong/src/main.c
-index 22f085e..e329735 100644
---- a/apps/ping_pong/src/main.c
-+++ b/apps/ping_pong/src/main.c
-@@ -12,7 +12,7 @@
- #include <unistd.h>
- #include <time.h>
- 
--#include <zephyr.h>
-+#include <zephyr/kernel.h>
- 
- #define STRING_BUFFER_LEN 50
- 
 diff --git a/apps/ping_pong/src/wifi.c b/apps/ping_pong/src/wifi.c
 new file mode 100644
 index 0000000..ba57b37
