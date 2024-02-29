@@ -41,5 +41,5 @@ source install/local_setup.bash
 
 ros2 run micro_ros_setup create_firmware_ws.sh zephyr $board 2>&1 | tee /tmp/microros-zephyr-$board.log
 
-$prgdir/patch_microros.sh ${board}
+$prgdir/patch_microros.sh ${board} 2>&1 | tee /tmp/microros-zephyr-$board-patches.log
     

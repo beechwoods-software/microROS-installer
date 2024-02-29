@@ -2,7 +2,7 @@ diff --git a/rcl_logging_interface/CMakeLists.txt b/rcl_logging_interface/CMakeL
 index 6c67659..0600476 100644
 --- a/rcl_logging_interface/CMakeLists.txt
 +++ b/rcl_logging_interface/CMakeLists.txt
-@@ -13,7 +13,7 @@ if(NOT CMAKE_CXX_STANDARD)
+@@ -12,7 +12,7 @@ if(NOT CMAKE_CXX_STANDARD)
  endif()
  
  if(NOT WIN32)
