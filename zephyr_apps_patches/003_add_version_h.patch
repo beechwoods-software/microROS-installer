@@ -1,0 +1,130 @@
+diff --git a/apps/add_two_ints_service/CMakeLists.txt b/apps/add_two_ints_service/CMakeLists.txt
+index 9700586..21ca49e 100644
+--- a/apps/add_two_ints_service/CMakeLists.txt
++++ b/apps/add_two_ints_service/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/attitude_estimator/CMakeLists.txt b/apps/attitude_estimator/CMakeLists.txt
+index c842d52..a49da54 100644
+--- a/apps/attitude_estimator/CMakeLists.txt
++++ b/apps/attitude_estimator/CMakeLists.txt
+@@ -89,7 +89,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/int32_publisher/CMakeLists.txt b/apps/int32_publisher/CMakeLists.txt
+index 6b7f572..d7bcee5 100644
+--- a/apps/int32_publisher/CMakeLists.txt
++++ b/apps/int32_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/int32_wifi_publisher/CMakeLists.txt b/apps/int32_wifi_publisher/CMakeLists.txt
+index 9716f5b..7215189 100644
+--- a/apps/int32_wifi_publisher/CMakeLists.txt
++++ b/apps/int32_wifi_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/micro-ros_reconnection/CMakeLists.txt b/apps/micro-ros_reconnection/CMakeLists.txt
+index d555cba..73d56ca 100644
+--- a/apps/micro-ros_reconnection/CMakeLists.txt
++++ b/apps/micro-ros_reconnection/CMakeLists.txt
+@@ -84,7 +84,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/openmanipulator_tof/CMakeLists.txt b/apps/openmanipulator_tof/CMakeLists.txt
+index 3fb3667..a5b4337 100644
+--- a/apps/openmanipulator_tof/CMakeLists.txt
++++ b/apps/openmanipulator_tof/CMakeLists.txt
+@@ -93,7 +93,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/ping_pong/CMakeLists.txt b/apps/ping_pong/CMakeLists.txt
+index 6b7f572..3aae832 100644
+--- a/apps/ping_pong/CMakeLists.txt
++++ b/apps/ping_pong/CMakeLists.txt
+@@ -87,7 +98,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/sensors_publisher/CMakeLists.txt b/apps/sensors_publisher/CMakeLists.txt
+index 9716f5b..7215189 100644
+--- a/apps/sensors_publisher/CMakeLists.txt
++++ b/apps/sensors_publisher/CMakeLists.txt
+@@ -87,7 +87,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/tof_ws2812/CMakeLists.txt b/apps/tof_ws2812/CMakeLists.txt
+index 9f8414f..d914a51 100644
+--- a/apps/tof_ws2812/CMakeLists.txt
++++ b/apps/tof_ws2812/CMakeLists.txt
+@@ -89,7 +89,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})
+diff --git a/apps/vl53l1x_tof_sensor/CMakeLists.txt b/apps/vl53l1x_tof_sensor/CMakeLists.txt
+index 3fb3667..a5b4337 100644
+--- a/apps/vl53l1x_tof_sensor/CMakeLists.txt
++++ b/apps/vl53l1x_tof_sensor/CMakeLists.txt
+@@ -93,7 +93,7 @@ add_dependencies(
+     microroslib_project
+     )
+ 
+-add_dependencies(microroslib_project offsets_h)
++add_dependencies(microroslib_project offsets_h version_h)
+ 
+ set_target_properties(microroslib PROPERTIES IMPORTED_LOCATION             ${MICROROS_LIB_DIR}/libmicroros.a)
+ set_target_properties(microroslib PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MICROROS_INCLUDE_DIR})

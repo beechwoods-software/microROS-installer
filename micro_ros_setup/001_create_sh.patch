@@ -16,7 +16,7 @@ index 13fa6ee..d0f42eb 100755
      pushd zephyrproject >/dev/null
          cd zephyr
 -          git checkout zephyr-v2.6.0
-+          git checkout zephyr-v3.5.0
++          git checkout v3.6.0
          cd ..
 +
          west update

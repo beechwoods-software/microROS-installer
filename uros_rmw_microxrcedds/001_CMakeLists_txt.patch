@@ -2,7 +2,7 @@ diff --git a/rmw_microxrcedds_c/CMakeLists.txt b/rmw_microxrcedds_c/CMakeLists.t
 index 451719b..b73f2a7 100644
 --- a/rmw_microxrcedds_c/CMakeLists.txt
 +++ b/rmw_microxrcedds_c/CMakeLists.txt
-@@ -307,7 +307,6 @@ target_compile_options(${PROJECT_NAME}
+@@ -305,7 +305,6 @@ target_compile_options(${PROJECT_NAME}
    PRIVATE
      $<$<C_COMPILER_ID:GNU>:-Wall>
      $<$<C_COMPILER_ID:GNU>:-Wextra>

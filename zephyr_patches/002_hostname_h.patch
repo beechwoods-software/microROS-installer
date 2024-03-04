@@ -2,7 +2,7 @@ diff --git a/include/zephyr/net/hostname.h b/include/zephyr/net/hostname.h
 index e34c1df31a..6398249edc 100644
 --- a/include/zephyr/net/hostname.h
 +++ b/include/zephyr/net/hostname.h
-@@ -74,6 +74,8 @@ int net_hostname_set_postfix(const uint8_t *hostname_postfix,
+@@ -103,6 +103,8 @@ int net_hostname_set_postfix(const uint8_t *hostname_postfix,
  static inline int net_hostname_set_postfix(const uint8_t *hostname_postfix,
  					   int postfix_len)
  {

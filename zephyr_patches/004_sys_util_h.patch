@@ -2,7 +2,7 @@ diff --git a/include/zephyr/sys/util.h b/include/zephyr/sys/util.h
 index b3cbb917b4..3be7f5f435 100644
 --- a/include/zephyr/sys/util.h
 +++ b/include/zephyr/sys/util.h
-@@ -500,7 +500,7 @@ size_t hex2bin(const char *hex, size_t hexlen, uint8_t *buf, size_t buflen);
+@@ -532,7 +532,7 @@ size_t hex2bin(const char *hex, size_t hexlen, uint8_t *buf, size_t buflen);
   */
  static inline uint8_t bcd2bin(uint8_t bcd)
  {
